@@ -47,7 +47,6 @@ void node_template::RunPeriodically(float Period)
 void node_template::Shutdown(void)
 {
     // Nothing to be done
-
     ROS_INFO("Node %s shutting down.", ros::this_node::getName().c_str());
 }
 

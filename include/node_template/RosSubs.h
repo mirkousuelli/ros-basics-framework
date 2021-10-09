@@ -1,24 +1,12 @@
+/* developed by mirko usuelli
+ */
 #ifndef ROS_SUBS_H
 #define ROS_SUBS_H
 
-#include "ros/ros.h"
-#include "RosSyncObj.h"
-#include <iostream>
+#include "node_template/RosSyncObj.h"
   
 using namespace std;
 
-class RosSubs<N> : public RosSyncObj<ros::Subscriber, N>
-{
-  private: 
-    /* ---ATTRIBUTES--------------------------------------------------------------------- */
-
-    /* ---METHODS------------------------------------------------------------------------ */
-
-  public:
-    /* ---ATTRIBUTES--------------------------------------------------------------------- */
-
-    /* ---METHODS------------------------------------------------------------------------ */
-
-};
+class RosSubs : public RosSyncObj<ros::Subscriber> {};
 
 #endif /* ROS_SUBS_H */

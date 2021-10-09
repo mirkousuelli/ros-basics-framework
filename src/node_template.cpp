@@ -1,21 +1,19 @@
-#include "node_template/node_template.h"
-
+#include "node_template/RosNode.h"
 #include <std_msgs/String.h>
 
+/* Retrieve parameters from ROS parameter server */
 void node_template::Prepare(void)
 {
-    /* Retrieve parameters from ROS parameter server */
-    std::string FullParamName;
+    std::string full_param_name;
 
-    // run_period
-    FullParamName = ros::this_node::getName()+"/run_period";
-
-    if (false == Handle.getParam(FullParamName, RunPeriod))
+    // run_period : from ROS server
+    full_param_name = ros::this_node::getName() + "/run_period";
+    if (false == Handle.getParam(FullParamName, run_period))
         ROS_ERROR("Node %s: unable to retrieve parameter %s.", ros::this_node::getName().c_str(), FullParamName.c_str());
 
-    // Example parameter
-    FullParamName = ros::this_node::getName()+"/example_parameter";
-    if (false == Handle.getParam(FullParamName, example_parameter))
+    // example_parameter : from ROS server
+    full_param_name = ros::this_node::getName() + "/example_parameter";
+    if (false == Handle.getParam(full_param_name, _param))
         ROS_ERROR("Node %s: unable to retrieve parameter %s.", ros::this_node::getName().c_str(), FullParamName.c_str());
 
     /* ROS topics */

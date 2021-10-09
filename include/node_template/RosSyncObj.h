@@ -1,85 +1,58 @@
+/* developed by mirko usuelli
+ */
 #ifndef ROS_SYNC_OBJ_H
 #define ROS_SYNC_OBJ_H
 
 #include <iostream>
-#include <vector>
 #include <string>
-#include <algorithm>
+#include <map> 
   
 using namespace std;
 
-class RosSyncObj<T, N>
+template <class T>
+class RosSyncObj
 {
   private: 
     /* ---ATTRIBUTES--------------------------------------------------------------------- */
 
-    /* object : publisher or subscriber */
-    vector<T> _objs;
-
-    /* Node state variables */
-    vector<N> _payloads;
+    /* map : < key = name ; value = publisher or subscriber instance> */
+    map<string, T> _objs;
 
   public:
-    /* ---ATTRIBUTES--------------------------------------------------------------------- */
-
-    /* names */
-    vector<string> names;
-
     /* ---METHODS------------------------------------------------------------------------ */
 
-    /* get object index */
-    int getIndex(string name)
+    /* checking existence */
+    bool contain(string name)
     {
-        // iterator on names
-        std::vector<string>::iterator itr = std::find(names.begin(), names.end(), name);
-        
-        // if the name has been found
-        if (itr != names.cend()) 
-        {
-            // return the distance of the interator from the beginning
-            return std::distance(names.begin(), itr);
-        }
-
-        // error : not found
-        return -1;
-    }
-
-    /* get name */
-    string getName(int idx) 
-    {
-        return names[idx];
+      _objs.contains(name);
     }
 
     /* get object */
-    T& getObj(int idx)
+    const T& get(string name)
     {
-        return _objs[idx];
-    }
-
-    /* get object payload */
-    N& getPayload(int idx)
-    {
-        return _payloads[idx];
+      return _objs.find(name);
     }
     
     /* add new object */
-    void addObj(string name, T obj, N payload) 
+    void add(string name, T obj) 
     {
-        // in all vectors composing the Ros Synchronous Object
-        names.push_back(name);
-        _objs.push_back(obj);
-        _payloads.push_back(payload);
+      _objs.insert(name, obj);
     }
     
     /* delete object */
-    void delObj(int idx) 
+    int del(string name) 
     {
-        // in all vectors composing the Ros Synchronous Object
-        names.erase(idx);
-        _objs.erase(idx);
-        _payloads.erase(idx);
-    }
+      // checking existence
+      if (_objs.contains(name))
+      {
+        // existing and deleted
+        _objs.erase(name);
+        return 0;
+      }
 
+      // not existing item
+      return -1;
+    }
 };
 
 #endif /* ROS_SYNC_OBJ_H */

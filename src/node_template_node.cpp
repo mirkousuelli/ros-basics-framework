@@ -1,5 +1,7 @@
-#include "node_template/node_template.h"
+#include "node_template/RosNode.h"
 
+/* ROS topic callbacks */
+void inTopic_MessageCallback(const std_msgs::Float64::ConstPtr& msg);
 
 int main(int argc, char **argv)
 {

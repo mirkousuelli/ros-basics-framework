@@ -1,0 +1,6 @@
+<launch>
+  <!--- Run node_template node -->
+  <node pkg="node_template" type="node_template" respawn="false" name="node_template" output="screen">
+    <rosparam file="$(find node_template)/config/node_template_params.yaml" command="load" />
+  </node>
+</launch>

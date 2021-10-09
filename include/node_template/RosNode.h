@@ -24,9 +24,6 @@ class RosNode
     /* Parameters from ROS parameter server */
     double _param;
 
-    /* Node state variables */
-    double in_data;
-
     /* ---METHODS------------------------------------------------------------------------ */
     /* ROS topic callbacks */
     void inTopic_MessageCallback(const std_msgs::Float64::ConstPtr& msg);

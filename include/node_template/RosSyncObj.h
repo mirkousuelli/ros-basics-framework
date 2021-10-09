@@ -40,18 +40,18 @@ class RosSyncObj
     }
     
     /* delete object */
-    int del(string name) 
+    bool del(string name) 
     {
       // checking existence
       if (_objs.contains(name))
       {
         // existing and deleted
         _objs.erase(name);
-        return 0;
+        return true;
       }
 
       // not existing item
-      return -1;
+      return false;
     }
 };
 

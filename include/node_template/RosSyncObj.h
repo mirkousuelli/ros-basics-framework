@@ -1,8 +1,6 @@
 #ifndef ROS_SYNC_OBJ_H
 #define ROS_SYNC_OBJ_H
 
-#include "ros/ros.h"
-#include <std_msgs/Float64.h>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -46,24 +44,28 @@ class RosSyncObj<T, N>
         return -1;
     }
 
-    /* get object */
-    T& getObj(int idx) 
+    /* get name */
+    string getName(int idx) 
     {
-        return _objs[i];
+        return names[idx];
+    }
+
+    /* get object */
+    T& getObj(int idx)
+    {
+        return _objs[idx];
     }
 
     /* get object payload */
-    N& getPayload(int idx) {
-        return _payloads[i];
-    }
-
-    string getName(int idx) {
-        return names[i];
+    N& getPayload(int idx)
+    {
+        return _payloads[idx];
     }
     
     /* add new object */
     void addObj(string name, T obj, N payload) 
     {
+        // in all vectors composing the Ros Synchronous Object
         names.push_back(name);
         _objs.push_back(obj);
         _payloads.push_back(payload);
@@ -72,6 +74,7 @@ class RosSyncObj<T, N>
     /* delete object */
     void delObj(int idx) 
     {
+        // in all vectors composing the Ros Synchronous Object
         names.erase(idx);
         _objs.erase(idx);
         _payloads.erase(idx);

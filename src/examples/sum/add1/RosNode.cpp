@@ -1,8 +1,8 @@
-#include "node_template/RosNode.h"
+#include "RosNode/RosNode.h"
 #include <std_msgs/String.h>
 
 /* (0) defining the internal periodic phase */
-void RosNode::PeriodicTask(void)
+void RosNode::_PeriodicTask(void)
 {
     // Do all the periodic computation here 
 
@@ -33,7 +33,7 @@ void RosNode::Prepare(void)
 }
 
 /* (2) running phase */
-void RosNode::RunPeriodically(float Period)
+void RosNode::RunPeriodically(float run_period)
 {
     ros::Rate LoopRate(1.0/Period);
 

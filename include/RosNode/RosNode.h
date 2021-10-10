@@ -1,16 +1,19 @@
+/* developed by mirko usuelli
+ */
 #ifndef ROS_NODE_H
 #define ROS_NODE_H
 
 #include "ros/ros.h"
-#include "node_template/RosPubs.h"
-#include "node_template/RosSubs.h"
-  
-using namespace std;
+#include "RosNode/RosPubs.h"
+#include "RosNode/RosSubs.h"
 
 class RosNode
 {
   private: 
-    /* ---ATTRIBUTES--------------------------------------------------------------------- */
+    // ---ATTRIBUTES------------------------------------------------------------------------
+
+    /* handler */
+    ros::NodeHandle _handler;
 
     /* Publishers */
     RosPubs _pubs;
@@ -21,16 +24,24 @@ class RosNode
     /* Parameters from ROS server */
     double _param;
 
-  public:
-    /* ---ATTRIBUTES--------------------------------------------------------------------- */
+    // ---ABSTRACT METHODS------------------------------------------------------------------- 
+    /* Abstract ethods to be developed inside the file "RosNode.cpp" of each node which needs to
+     * implement these life-phases-methods in its own directory. This allows a strong 
+     * customizable approach in developing the life cycle of a ROS node.
+     */
 
-    /* handler */
-    ros::NodeHandle handler;
+    /* (0) defining the internal periodic phase : task in loop */
+    void _PeriodicTask(void); // TODO
+
+  public:
+    // ---ATTRIBUTES------------------------------------------------------------------------ 
 
     /* run period time */
     float run_period;
 
-    /* ---FIXED METHODS--------------------------------------------------------------------- */
+    // ---FIXED METHODS---------------------------------------------------------------------
+    /* Primitive methods already implemented, fixed for each instance of RosNode.
+     */
 
     /* insert subscriber */
     void addSubscriber(string name, ros::Subscriber sub)
@@ -73,19 +84,16 @@ class RosNode
       ROS_ERROR("Failed! Node %s has not found publisher %s to be deleted.", ros::this_node::getName().c_str(), name);
     }
 
-    /* ---ABSTRACT METHODS--------------------------------------------------------------------- */
+    // ---ABSTRACT METHODS------------------------------------------------------------------- 
 
-    /* (0) defining the internal periodic phase */
-    void PeriodicTask(void);
-
-    /* (1) beginning phase */
-    void Prepare(void);
+    /* (1) beginning phase : initialization of connection, publishers, subscribers, ...etc... */
+    void Prepare(void); // TODO
     
-    /* (2) running phase */
-    void RunPeriodically(float period);
+    /* (2) running phase : taking into account the loop task previously defined in given rate */
+    void RunPeriodically(float run_period); // TODO
     
-    /* (3) ending phase */
-    void Shutdown(void);
+    /* (3) ending phase : shutting down the node*/
+    void Shutdown(void); // TODO
 };
 
-#endif /* NODE_TEMPLATE_H_ */
+#endif /* ROS_NODE_H */

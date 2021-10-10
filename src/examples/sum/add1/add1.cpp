@@ -1,4 +1,4 @@
-#include "node_template/RosNode.h"
+#include "RosNode/RosNode.h"
 
 /* ROS topic callbacks */
 void inTopic_MessageCallback(const std_msgs::Float64::ConstPtr& msg){

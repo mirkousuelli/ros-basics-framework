@@ -6,8 +6,6 @@
 #include <iostream>
 #include <string>
 #include <map> 
-  
-using namespace std;
 
 template <class T>
 class RosSyncObj
@@ -15,38 +13,38 @@ class RosSyncObj
   private: 
     /* ---ATTRIBUTES--------------------------------------------------------------------- */
 
-    /* map : < key = name ; value = publisher or subscriber instance> */
+    /* map : < key = topic name ; value = publisher or subscriber instance> */
     map<string, T> _objs;
 
   public:
     /* ---METHODS------------------------------------------------------------------------ */
 
     /* checking existence */
-    bool contain(string name)
+    bool contain(string topic)
     {
-      _objs.contains(name);
+      _objs.contains(topic);
     }
 
     /* get object */
-    const T& get(string name)
+    const T& get(string topic)
     {
-      return _objs.find(name);
+      return _objs.find(topic);
     }
     
     /* add new object */
-    void add(string name, T obj) 
+    void add(string topic, T obj) 
     {
-      _objs.insert(name, obj);
+      _objs.insert(topic, obj);
     }
     
     /* delete object */
-    bool del(string name) 
+    bool del(string topic) 
     {
       // checking existence
-      if (_objs.contains(name))
+      if (_objs.contains(topic))
       {
         // existing and deleted
-        _objs.erase(name);
+        _objs.erase(topic);
         return true;
       }
 

@@ -19,7 +19,7 @@ class RosNode
     RosPubs _pubs;
 
     /* Subscribers */
-    RosSubs _subs;
+    RosSubs<double> _subs;
     
     /* Parameters from ROS server */
     double _param;
@@ -42,6 +42,12 @@ class RosNode
     // ---FIXED METHODS---------------------------------------------------------------------
     /* Primitive methods already implemented, fixed for each instance of RosNode.
      */
+
+    /* use handler */
+    const ros:NodeHandle& useHandler()
+    {
+      return _handler;
+    }
 
     /* insert subscriber */
     void addSubscriber(string name, ros::Subscriber sub)

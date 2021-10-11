@@ -4,9 +4,11 @@
 #define ROS_NODE_H
 
 #include "ros/ros.h"
-#include "RosNode/RosPubs.h"
-#include "RosNode/RosSubs.h"
+#include "RosPubs.h"
+#include "RosSubs.h"
+#include <string>
 
+template <class T>
 class RosNode
 {
   private: 
@@ -19,7 +21,7 @@ class RosNode
     RosPubs _pubs;
 
     /* Subscribers */
-    RosSubs<double> _subs;
+    RosSubs<T> _subs;
     
     /* Parameters from ROS server */
     double _param;
@@ -43,11 +45,7 @@ class RosNode
     /* Primitive methods already implemented, fixed for each instance of RosNode.
      */
 
-    /* use handler */
-    const ros:NodeHandle& useHandler()
-    {
-      return _handler;
-    }
+    RosNode(void){};
 
     /* insert subscriber */
     void addSubscriber(string name, ros::Subscriber sub)
@@ -76,19 +74,31 @@ class RosNode
     }
 
     /* delete subscriber */
-    int delSubscriber(string name) {
+    /*int delSubscriber(string name) {
       if(_subs.del(name))
         ROS_INFO("Node %s has deleted subscriber %s.", ros::this_node::getName().c_str(), name);
       ROS_ERROR("Failed! Node %s has not found subscriber %s to be deleted.", ros::this_node::getName().c_str(), name);
-    }
+    }*/
 
     /* delete publisher */
-    int delPublisher(string name) 
+    /*int delPublisher(string name) 
     {
       if(_pubs.del(name))
         ROS_INFO("Node %s has deleted publisher %s.", ros::this_node::getName().c_str(), name);
       ROS_ERROR("Failed! Node %s has not found publisher %s to be deleted.", ros::this_node::getName().c_str(), name);
+    }*/
+
+    /* store a value */
+    void push(string name, T msg)
+    {
+      _subs.push(name, msg);
     }
+
+    /* read and delete the last value */
+    T pop(string name)
+    {
+      return _subs.pop(name);
+    } 
 
     // ---ABSTRACT METHODS------------------------------------------------------------------- 
 
@@ -100,6 +110,10 @@ class RosNode
     
     /* (3) ending phase : shutting down the node*/
     void Shutdown(void); // TODO
+
+    // ---CALLBACKS------------------------------------------------------------------- 
+    void add1_callback(T msg); // TODO
+    void add2_callback(T msg); // TODO
 };
 
 #endif /* ROS_NODE_H */

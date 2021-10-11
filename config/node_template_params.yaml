@@ -1,5 +1,0 @@
-# Node template configuration parameters
-  /node_template/run_period: 1.0           # Node execution period
-
-  /node_template/example_parameter: 10     # Example parameter
-

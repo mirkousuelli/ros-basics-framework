@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(node_template)
+project(ros-basics-framework)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -120,13 +120,9 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(node_template src/node_template.cpp src/node_template_node.cpp)
-target_link_libraries(node_template ${catkin_LIBRARIES})
-
 ## Declare a C++ library
-# add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/node_template.cpp
-# )
+#add_library(${PROJECT_NAME}/RosNode.h src/examples/sum/publisher/RosNode.cpp)
+#add_library(${PROJECT_NAME}/RosNode.h src/examples/sum/subscriber/RosNode.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -137,6 +133,8 @@ target_link_libraries(node_template ${catkin_LIBRARIES})
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/node_template_node.cpp)
+add_executable(publisher src/examples/sum/publisher/RosNode.cpp src/examples/sum/publisher/publisher.cpp)
+add_executable(subscriber src/examples/sum/subscriber/RosNode.cpp src/examples/sum/subscriber/subscriber.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -147,11 +145,15 @@ target_link_libraries(node_template ${catkin_LIBRARIES})
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#add_dependencies(publisher ${beginner_tutorials_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+#add_dependencies(subscriber ${beginner_tutorials_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(publisher ${catkin_LIBRARIES})
+target_link_libraries(subscriber ${catkin_LIBRARIES})
 
 #############
 ## Install ##

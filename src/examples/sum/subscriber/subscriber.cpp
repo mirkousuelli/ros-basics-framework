@@ -1,12 +1,13 @@
 /* developed by mirko usuelli
  */
-#include "RosNode/RosNode.h"
+#include "ros-basics-framework/RosNode.h"
+#include <std_msgs/Int32.h>
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, NAME_OF_THIS_NODE);
+  ros::init(argc, argv, "subscriber");
   
-  RosNode node;
+  RosNode<std_msgs::Int32> node;
    
   node.Prepare();
   

@@ -3,7 +3,7 @@
 #ifndef ROS_PUBS_H
 #define ROS_PUBS_H
 
-#include "RosSyncObjs.h"
+#include "ros-basics-framework/RosSyncObjs.h"
 #include <map>
 #include <string>
 
@@ -15,7 +15,7 @@ using namespace std;
 class RosPubs : public RosSyncObjs<ros::Publisher> {
 	public:
 		/* ---METHODS------------------------------------------------------------------------ */
-		RosPubs(void){};
+		//RosPubs(void){};
 
 		/* checking existence */
 		/*bool contain(string name)

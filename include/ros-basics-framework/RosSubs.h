@@ -3,7 +3,7 @@
 #ifndef ROS_SUBS_H
 #define ROS_SUBS_H
 
-#include "RosSyncObjs.h"
+#include "ros-basics-framework/RosSyncObjs.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -20,7 +20,7 @@ class RosSubs : public RosSyncObjs<ros::Subscriber> {
 
     public:
     /* ---METHODS------------------------------------------------------------------------ */
-    RosSubs<T>(void){};
+    //RosSubs<T>(void){};
 
     /* checking existence */
     /*bool contain(string name)

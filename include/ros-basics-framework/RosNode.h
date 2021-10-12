@@ -4,11 +4,141 @@
 #define ROS_NODE_H
 
 #include "ros/ros.h"
-#include "RosPubs.h"
-#include "RosSubs.h"
+//#include "ros-basics-framework/RosPubs.h"
+//#include "ros-basics-framework/RosSubs.h"
+#include "std_msgs/Int32.h"
 #include <string>
+#include <iostream>
+#include <string>
+#include <map> 
+#include <vector>
+
+using namespace std;
+
 
 template <class T>
+class RosSyncObjs
+{
+  protected:
+    /* ---ATTRIBUTES--------------------------------------------------------------------- */
+
+    /* map : < key = topic name ; value = publisher or subscriber instance> */
+    map<string, T> _topics;
+
+  public: 
+    /* ---METHODS------------------------------------------------------------------------ */
+    //RosSyncObjs<T>(void){};
+
+    /* checking existence */
+    //bool contain(string name);
+
+    /* get object */
+    const T& get(string name);
+    
+    /* add new object */
+    void add(string name, T obj);
+    
+    /* delete object */
+    //bool del(string name);
+};
+
+template <class T>
+class RosSubs : public RosSyncObjs<ros::Subscriber> {
+    private:
+        map<string, T> _buffer;
+
+    public:
+    /* ---METHODS------------------------------------------------------------------------ */
+    //RosSubs<T>(void){};
+
+    /* checking existence */
+    /*bool contain(string name)
+    {
+        _topics.contains(name);
+    }*/
+
+    /* get object */
+    const ros::Subscriber& get(string name)
+    {
+        return _topics.find(name)->second;
+    }
+    
+    /* add new object */
+    void add(string name, ros::Subscriber obj) 
+    {
+        _topics.insert(make_pair(name, obj));
+        //_buffer.insert(make_pair(name, new vector<T>));
+        _buffer.insert(make_pair(name, T()));
+    }
+    
+    /* delete object */
+    /*bool del(string name) 
+    {
+        // checking existence
+        if (_topics.contains(name))
+        {
+        // existing and deleted
+        _topics.erase(name);
+        _buffer.erase(name);
+        return true;
+        }
+
+        // not existing item
+        return false;
+    }*/
+
+    /* store a value */
+    void push(string name, T msg)
+    {
+        _buffer.find(name)->second = msg;
+    }
+
+    /* read and delete the last value */
+    const T pop(string name)
+    {
+      return _buffer.find(name)->second;
+    }
+};
+
+class RosPubs : public RosSyncObjs<ros::Publisher> {
+	public:
+		/* ---METHODS------------------------------------------------------------------------ */
+		//RosPubs(void){};
+
+		/* checking existence */
+		/*bool contain(string name)
+		{
+			_topics.contains(name);
+		}*/
+
+		/* get object */
+		const ros::Publisher& get(string name)
+		{
+			return _topics.find(name)->second;
+		}
+		
+		/* add new object */
+		void add(string name, ros::Publisher obj) 
+		{
+			_topics.insert(make_pair(name, obj));
+		}
+		
+		/* delete object */
+		/*bool del(string name) 
+		{
+			// checking existence
+			if (_topics.contains(name))
+			{
+				// existing and deleted
+				_topics.erase(name);
+				return true;
+			}
+
+			// not existing item
+			return false;
+		}*/
+};
+
 class RosNode
 {
   private: 
@@ -21,7 +151,7 @@ class RosNode
     RosPubs _pubs;
 
     /* Subscribers */
-    RosSubs<T> _subs;
+    RosSubs<std_msgs::Int32> _subs;
     
     /* Parameters from ROS server */
     double _param;
@@ -45,7 +175,7 @@ class RosNode
     /* Primitive methods already implemented, fixed for each instance of RosNode.
      */
 
-    RosNode(void){};
+    //RosNode(void){};
 
     /* insert subscriber */
     void addSubscriber(string name, ros::Subscriber sub)
@@ -89,13 +219,13 @@ class RosNode
     }*/
 
     /* store a value */
-    void push(string name, T msg)
+    void push(string name, std_msgs::Int32 msg)
     {
       _subs.push(name, msg);
     }
 
     /* read and delete the last value */
-    T pop(string name)
+    std_msgs::Int32 pop(string name)
     {
       return _subs.pop(name);
     } 
@@ -112,8 +242,8 @@ class RosNode
     void Shutdown(void); // TODO
 
     // ---CALLBACKS------------------------------------------------------------------- 
-    void add1_callback(T msg); // TODO
-    void add2_callback(T msg); // TODO
+    void add1_callback(std_msgs::Int32 msg); // TODO
+    void add2_callback(std_msgs::Int32 msg); // TODO
 };
 
 #endif /* ROS_NODE_H */

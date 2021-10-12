@@ -2,7 +2,7 @@
  */
 #include "ros-basics-framework/RosNode.h"
 #include "ros/ros.h"
-#include <std_msgs/Int32.h>
+#include "std_msgs/Int32.h"
 
 /* -------------------------------------------------------------------------------------------------
  * CALLBACKS METHODS
@@ -17,13 +17,13 @@
  */
 
 /* (0) defining the internal periodic phase */
-template<class T> void RosNode<T>::_PeriodicTask(void)
+void RosNode::_PeriodicTask(void)
 {
     // TODO: add all the periodic computation 
     /* ---------------------------------------- */ // <--- down here
     
-    T msg1;
-    T msg2;
+    std_msgs::Int32 msg1;
+    std_msgs::Int32 msg2;
 
     msg1.data = 1;
     getPublisher("/add1").publish(msg1);
@@ -37,7 +37,7 @@ template<class T> void RosNode<T>::_PeriodicTask(void)
 }
 
 /* (1) beginning phase */
-template<class T> void RosNode<T>::Prepare(void)
+void RosNode::Prepare(void)
 {
     // Retrieve parameters from ROS parameter server
     std::string full_param_name;
@@ -56,11 +56,11 @@ template<class T> void RosNode<T>::Prepare(void)
     /* ---------------------------------------- */ // <--- down here
     
     // add1 publisher
-    addPublisher("/add1", _handler.advertise<T>("/add1", 1));
+    addPublisher("/add1", _handler.advertise<std_msgs::Int32>("/add1", 1));
     ROS_INFO("[Node %s] added a publisher on topic '/add1'", ros::this_node::getName().c_str());
 
     // add2 publisher
-    addPublisher("/add2", _handler.advertise<T>("/add2", 1));
+    addPublisher("/add2", _handler.advertise<std_msgs::Int32>("/add2", 1));
     ROS_INFO("[Node %s] added a publisher on topic '/add2'", ros::this_node::getName().c_str());
 
     /* ---------------------------------------- */ // <--- until here
@@ -69,7 +69,7 @@ template<class T> void RosNode<T>::Prepare(void)
 }
 
 /* (2) running phase */
-template<class T> void RosNode<T>::RunPeriodically(float run_period)
+void RosNode::RunPeriodically(float run_period)
 {
     // setting the loop rate
     ros::Rate LoopRate(1.0 / run_period);
@@ -90,7 +90,7 @@ template<class T> void RosNode<T>::RunPeriodically(float run_period)
 }
 
 /* (3) ending phase */
-template<class T> void RosNode<T>::Shutdown(void)
+void RosNode::Shutdown(void)
 {
     // Nothing to be done, just shutdown
     ROS_INFO("[Node %s] shutting down...", ros::this_node::getName().c_str());

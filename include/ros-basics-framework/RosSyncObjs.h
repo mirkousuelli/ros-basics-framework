@@ -21,7 +21,7 @@ class RosSyncObjs
 
   public: 
     /* ---METHODS------------------------------------------------------------------------ */
-    RosSyncObjs<T>(void){};
+    //RosSyncObjs<T>(void){};
 
     /* checking existence */
     //bool contain(string name);

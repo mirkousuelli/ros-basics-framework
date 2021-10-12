@@ -104,7 +104,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES node_template
+  LIBRARIES ros-basics-framework
   CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
 )
@@ -121,20 +121,19 @@ include_directories(
 )
 
 ## Declare a C++ library
-#add_library(${PROJECT_NAME}/RosNode.h src/examples/sum/publisher/RosNode.cpp)
-#add_library(${PROJECT_NAME}/RosNode.h src/examples/sum/subscriber/RosNode.cpp)
+add_library(${PROJECT_NAME}
+  src/publisher/RosNode.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/node_template_node.cpp)
-add_executable(publisher src/examples/sum/publisher/RosNode.cpp src/examples/sum/publisher/publisher.cpp)
-add_executable(subscriber src/examples/sum/subscriber/RosNode.cpp src/examples/sum/subscriber/subscriber.cpp)
+add_executable(publisher src/publisher/publisher.cpp src/publisher/RosNode.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -144,16 +143,12 @@ add_executable(subscriber src/examples/sum/subscriber/RosNode.cpp src/examples/s
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#add_dependencies(publisher ${beginner_tutorials_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-#add_dependencies(subscriber ${beginner_tutorials_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
-target_link_libraries(publisher ${catkin_LIBRARIES})
-target_link_libraries(subscriber ${catkin_LIBRARIES})
+target_link_libraries(publisher
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -177,18 +172,18 @@ target_link_libraries(subscriber ${catkin_LIBRARIES})
 
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
-# install(TARGETS ${PROJECT_NAME}
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
-# )
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+)
 
 ## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 #   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
-# )
+)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
@@ -202,7 +197,7 @@ target_link_libraries(subscriber ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_node_template.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_ros-basics-framework.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

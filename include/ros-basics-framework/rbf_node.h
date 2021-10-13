@@ -4,8 +4,7 @@
 #define RBF_NODE_H
 
 #include "ros/ros.h"
-#include "ros-basics-framework/rbf_pubs_list.h"
-#include "ros-basics-framework/rbf_subs_list.h"
+#include "ros-basics-framework/rbf_topics_list.h"
 #include <string>
 
 using namespace std;
@@ -17,10 +16,10 @@ class rbf_node
     // ---ATTRIBUTES------------------------------------------------------------------------
 
     /* Publishers */
-    rbf_pubs_list _pubs;
+    rbf_topics_list<ros::Publisher, T> _out;
 
     /* Subscribers */
-    rbf_subs_list<T> _subs;
+    rbf_topics_list<ros::Subscriber, T> _in;
   
   protected:
     /* handler */
@@ -48,37 +47,49 @@ class rbf_node
     /* insert subscriber */
     void addSubscriber(string name, ros::Subscriber sub)
     {
-      _subs.add(name, sub);
+      _in.add(name, sub);
     }
 
     /* insert publisher */
     void addPublisher(string name, ros::Publisher pub)
     {
-      _pubs.add(name, pub);
+      _out.add(name, pub);
     }
 
     /* subscriber getter */
     const ros::Subscriber& getSubscriber(string name)
     {
-      return _subs.get(name);
+      return _in.get(name);
     }
 
     /* publisher getter */
     const ros::Publisher& getPublisher(string name)
     {
-      return _pubs.get(name);
+      return _out.get(name);
     }
 
     /* store a value */
-    void push(string name, T msg)
+    void store_in(string name, T msg)
     {
-      _subs.push(name, msg);
+      _in.store(name, msg);
+    }
+
+    /* store a value */
+    void store_out(string name, T msg)
+    {
+      _out.store(name, msg);
     }
 
     /* read and delete the last value */
-    T pop(string name)
+    T read_in(string name)
     {
-      return _subs.pop(name);
+      return _in.read(name);
+    } 
+
+    /* read and delete the last value */
+    T read_out(string name)
+    {
+      return _out.read(name);
     } 
 
     // ---ABSTRACT METHODS------------------------------------------------------------------- 

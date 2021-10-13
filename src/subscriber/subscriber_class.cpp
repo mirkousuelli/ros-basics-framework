@@ -14,14 +14,14 @@
 void subscriber_class::_add1_callback(std_msgs::Int32 msg)
 {
     // read message and store information
-    push("/add1", msg);
+    store_in("/add1", msg);
     ROS_INFO("[%s] received %d from topic '/add1'", ros::this_node::getName().c_str(), msg.data);
 }
 
 void subscriber_class::_add2_callback(std_msgs::Int32 msg)
 {
     // read message and store information 
-    push("/add2", msg);
+    store_in("/add2", msg);
     ROS_INFO("[%s] received %d from topic '/add2'", ros::this_node::getName().c_str(), msg.data);
 }
 
@@ -38,8 +38,9 @@ void subscriber_class::_PeriodicTask(void)
     
     std_msgs::Int32 sum;
 
-    sum.data = pop("/add1").data + pop("/add2").data;
-    getPublisher("/sum").publish(sum);
+    sum.data = read_in("/add1").data + read_in("/add2").data;
+    store_out("/sum", sum);
+    getPublisher("/sum").publish(read_out("/sum"));
     ROS_INFO("[%s] sent %d to topic '/sum'", ros::this_node::getName().c_str(), sum.data);
 
     /* ---------------------------------------- */ // <--- until here

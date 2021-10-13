@@ -3,6 +3,7 @@
 #include "ros-basics-framework/publisher_class.h"
 #include "ros/ros.h"
 #include "std_msgs/Int32.h"
+#include <iostream>
 
 /* -------------------------------------------------------------------------------------------------
  * CALLBACKS METHODS
@@ -22,14 +23,14 @@ void publisher_class::_PeriodicTask(void)
     // TODO: add all the periodic computation 
     /* ---------------------------------------- */ // <--- down here
     
-    std_msgs::Int32 msg1;
-    std_msgs::Int32 msg2;
+    std_msgs::Int32 msg1 = read_out("/add1");
+    std_msgs::Int32 msg2 = read_out("/add2");
 
-    msg1.data = 1;
+    //msg1.data = 1;
     getPublisher("/add1").publish(msg1);
     ROS_INFO("[%s] sent %d to topic '/add1'", ros::this_node::getName().c_str(), msg1.data);
 
-    msg2.data = 2;
+    //msg2.data = 2;
     getPublisher("/add2").publish(msg2);
     ROS_INFO("[%s] sent %d to topic '/add2'", ros::this_node::getName().c_str(), msg2.data);
 
@@ -39,20 +40,11 @@ void publisher_class::_PeriodicTask(void)
 /* (1) beginning phase */
 void publisher_class::Prepare(void)
 {
-    // Retrieve parameters from ROS parameter server
-    /*std::string full_param_name;
+    std_msgs::Int32 msg1;
+    std_msgs::Int32 msg2;
 
-    // run_period : from ROS server
-    full_param_name = ros::this_node::getName() + "/run_period";
-    if (false == _handler.getParam(full_param_name, run_period))
-        ROS_ERROR("[%s] unable to retrieve run period %s", ros::this_node::getName().c_str(), full_param_name.c_str());
-
-    // example_parameter : from ROS server
-    full_param_name = ros::this_node::getName() + "/_param";
-    if (false == _handler.getParam(full_param_name, _param))
-        ROS_ERROR("[%s] unable to retrieve parameter %s", ros::this_node::getName().c_str(), full_param_name.c_str());
-    */
     run_period = 1;
+
     // TODO : add publisher and subscribers to topics
     /* ---------------------------------------- */ // <--- down here
     
@@ -67,6 +59,14 @@ void publisher_class::Prepare(void)
     /* ---------------------------------------- */ // <--- until here
 
     ROS_INFO("[%s] ready to run", ros::this_node::getName().c_str());
+
+    std::cout << "[" << ros::this_node::getName().c_str() << "] insert value to publish on topic '/add1' : "; 
+    std::cin >> msg1.data;
+    store_out("/add1", msg1);
+
+    std::cout << "[" << ros::this_node::getName().c_str() << "] insert value to publish on topic '/add2' : ";
+    std::cin >> msg2.data;
+    store_out("/add2", msg2);
 }
 
 /* (2) running phase */

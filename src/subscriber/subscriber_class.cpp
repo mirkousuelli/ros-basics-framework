@@ -1,6 +1,6 @@
 /* developed by mirko usuelli
  */
-#include "ros-basics-framework/RosNode.h"
+#include "ros-basics-framework/subscriber_class.h"
 #include "ros/ros.h"
 #include "std_msgs/Int32.h"
 
@@ -11,36 +11,45 @@
 
 // TODO : add callbacks method if there are any subscribers 
 
+void subscriber_class::_add1_callback(std_msgs::Int32 msg)
+{
+    // read message and store information
+    push("/add1", msg);
+    ROS_INFO("[%s] received %d from topic '/add1'", ros::this_node::getName().c_str(), msg.data);
+}
+
+void subscriber_class::_add2_callback(std_msgs::Int32 msg)
+{
+    // read message and store information 
+    push("/add2", msg);
+    ROS_INFO("[%s] received %d from topic '/add2'", ros::this_node::getName().c_str(), msg.data);
+}
+
 /* -------------------------------------------------------------------------------------------------
  * NODE LIFE CYCLE METHODS
  * -------------------------------------------------------------------------------------------------
  */
 
 /* (0) defining the internal periodic phase */
-void RosNode::_PeriodicTask(void)
+void subscriber_class::_PeriodicTask(void)
 {
     // TODO: add all the periodic computation 
     /* ---------------------------------------- */ // <--- down here
     
-    std_msgs::Int32 msg1;
-    std_msgs::Int32 msg2;
+    std_msgs::Int32 sum;
 
-    msg1.data = 1;
-    getPublisher("/add1").publish(msg1);
-    ROS_INFO("[Node %s] sent %d to topic '/add1'", ros::this_node::getName().c_str(), msg1.data);
-
-    msg2.data = 2;
-    getPublisher("/add2").publish(msg2);
-    ROS_INFO("[Node %s] sent %d to topic '/add2'", ros::this_node::getName().c_str(), msg2.data);
+    sum.data = pop("/add1").data + pop("/add2").data;
+    getPublisher("/sum").publish(sum);
+    ROS_INFO("[%s] sent %d to topic '/sum'", ros::this_node::getName().c_str(), sum.data);
 
     /* ---------------------------------------- */ // <--- until here
 }
 
 /* (1) beginning phase */
-void RosNode::Prepare(void)
+void subscriber_class::Prepare(void)
 {
     // Retrieve parameters from ROS parameter server
-    std::string full_param_name;
+    /*std::string full_param_name;
 
     // run_period : from ROS server
     full_param_name = ros::this_node::getName() + "/run_period";
@@ -51,29 +60,34 @@ void RosNode::Prepare(void)
     full_param_name = ros::this_node::getName() + "/_param";
     if (false == _handler.getParam(full_param_name, _param))
         ROS_ERROR("[Node %s] unable to retrieve parameter %s", ros::this_node::getName().c_str(), full_param_name.c_str());
-
+    */
+    run_period = 1;
     // TODO : add publisher and subscribers to topics
     /* ---------------------------------------- */ // <--- down here
     
-    // add1 publisher
-    addPublisher("/add1", _handler.advertise<std_msgs::Int32>("/add1", 1));
-    ROS_INFO("[Node %s] added a publisher on topic '/add1'", ros::this_node::getName().c_str());
+    // add1 subscriber
+    addSubscriber("/add1", _handler.subscribe("/add1", 1, &subscriber_class::_add1_callback, this));
+    ROS_INFO("[%s] added a subscriber on topic '/add1'", ros::this_node::getName().c_str());
 
-    // add2 publisher
-    addPublisher("/add2", _handler.advertise<std_msgs::Int32>("/add2", 1));
-    ROS_INFO("[Node %s] added a publisher on topic '/add2'", ros::this_node::getName().c_str());
+    // add2 subscriber
+    addSubscriber("/add2", _handler.subscribe("/add2", 1, &subscriber_class::_add2_callback, this));
+    ROS_INFO("[%s] added a subscriber on topic '/add2'", ros::this_node::getName().c_str());
+
+    // sum publisher
+    addPublisher("/sum", _handler.advertise<std_msgs::Int32>("/sum", 1));
+    ROS_INFO("[%s] added a publisher on topic '/sum'", ros::this_node::getName().c_str());
 
     /* ---------------------------------------- */ // <--- until here
 
-    ROS_INFO("[Node %s] ready to run", ros::this_node::getName().c_str());
+    ROS_INFO("[%s] ready to run", ros::this_node::getName().c_str());
 }
 
 /* (2) running phase */
-void RosNode::RunPeriodically(float run_period)
+void subscriber_class::RunPeriodically(float run_period)
 {
     // setting the loop rate
     ros::Rate LoopRate(1.0 / run_period);
-    ROS_INFO("[Node %s] running periodically (T=%.2fs, f=%.2fHz).", ros::this_node::getName().c_str(), run_period, 1.0 / run_period);
+    ROS_INFO("[%s] running periodically (T=%.2fs, f=%.2fHz).", ros::this_node::getName().c_str(), run_period, 1.0 / run_period);
 
     // entering the loop until external interrupt (e.g. ctrl + C)
     while (ros::ok())
@@ -90,8 +104,8 @@ void RosNode::RunPeriodically(float run_period)
 }
 
 /* (3) ending phase */
-void RosNode::Shutdown(void)
+void subscriber_class::Shutdown(void)
 {
     // Nothing to be done, just shutdown
-    ROS_INFO("[Node %s] shutting down...", ros::this_node::getName().c_str());
+    ROS_INFO("[%s] shutting down...", ros::this_node::getName().c_str());
 }

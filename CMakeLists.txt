@@ -121,8 +121,9 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(${PROJECT_NAME}
-  src/publisher/RosNode.cpp
+add_library(${PROJECT_NAME} SHARED
+  src/publisher/publisher_class.cpp
+  src/subscriber/subscriber_class.cpp
 )
 
 ## Add cmake target dependencies of the library
@@ -133,7 +134,8 @@ add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EX
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(publisher src/publisher/publisher.cpp src/publisher/RosNode.cpp)
+add_executable(publisher src/publisher/publisher_node.cpp src/publisher/publisher_class.cpp)
+add_executable(subscriber src/subscriber/subscriber_node.cpp src/subscriber/subscriber_class.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -144,9 +146,13 @@ add_executable(publisher src/publisher/publisher.cpp src/publisher/RosNode.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(subscriber ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(publisher
+  ${catkin_LIBRARIES}
+)
+target_link_libraries(subscriber
   ${catkin_LIBRARIES}
 )
 

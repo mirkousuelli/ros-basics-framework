@@ -1,7 +1,7 @@
 /* developed by mirko usuelli
  */
-#ifndef ROS_SYNC_OBJS_H
-#define ROS_SYNC_OBJS_H
+#ifndef RBF_TOPICS_LIST_H
+#define RBF_TOPICS_LIST_H
 
 #include <iostream>
 #include <string>
@@ -11,7 +11,7 @@
 using namespace std;
 
 template <class T>
-class RosSyncObjs
+class rbf_topics_list
 {
   protected:
     /* ---ATTRIBUTES--------------------------------------------------------------------- */
@@ -21,19 +21,12 @@ class RosSyncObjs
 
   public: 
     /* ---METHODS------------------------------------------------------------------------ */
-    //RosSyncObjs<T>(void){};
-
-    /* checking existence */
-    //bool contain(string name);
 
     /* get object */
     const T& get(string name);
     
     /* add new object */
     void add(string name, T obj);
-    
-    /* delete object */
-    //bool del(string name);
 };
 
-#endif /* ROS_SYNC_OBJS_H */
+#endif /* RBF_TOPICS_LIST_H */

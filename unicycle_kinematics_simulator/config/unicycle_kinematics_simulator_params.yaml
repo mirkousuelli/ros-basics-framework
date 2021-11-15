@@ -1,0 +1,7 @@
+# Ode simulator configuration parameters
+  /unicycle_kinematics_simulator/dt: 0.001      # Integration time step
+
+  /unicycle_kinematics_simulator/x_0: 0.0      # Initial x position
+  /unicycle_kinematics_simulator/y_0: 0.0      # Initial y position
+  /unicycle_kinematics_simulator/theta_0: 0.0  # Initial theta position
+

@@ -1,0 +1,9 @@
+<launch>
+  <!--- Run ode_simulator node -->
+  <node pkg="unicycle_kinematics_simulator" type="unicycle_kinematics_simulator" respawn="false" name="unicycle_kinematics_simulator" output="screen">
+    <!-- Link node parameters to the yaml file -->
+    <rosparam file="$(find unicycle_kinematics_simulator)/config/unicycle_kinematics_simulator_params.yaml" command="load" />
+    <!-- Ask for simulation time (set to true) -->
+    <rosparam param="/use_sim_time">true</rosparam>
+  </node>
+</launch>

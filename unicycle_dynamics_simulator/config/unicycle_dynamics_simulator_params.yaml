@@ -5,3 +5,6 @@
   /unicycle_dynamics_simulator/y_0: 0.0      # Initial y position
   /unicycle_dynamics_simulator/theta_0: 0.0  # Initial theta position
 
+  /unicycle_dynamics_simulator/mass: 2.0      # Initial y position
+  /unicycle_dynamics_simulator/inertia: 0.03  # Initial theta position
+

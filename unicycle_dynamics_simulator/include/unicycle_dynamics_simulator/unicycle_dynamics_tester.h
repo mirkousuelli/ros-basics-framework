@@ -21,8 +21,8 @@ class unicycle_dynamics_tester {
     ros::Publisher clock_publisher;
     
     /* Parameters from ROS parameter server (yalm file) */
+    state_t tester_config;
     state_t tester_state;
-    state_t tester_d_state;
     input_t tester_u;
     double time;
 

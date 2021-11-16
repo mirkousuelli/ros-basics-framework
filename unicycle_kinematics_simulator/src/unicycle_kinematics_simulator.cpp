@@ -129,11 +129,11 @@ void unicycle_kinematics_simulator::PeriodicTask(void)
         std::cout << "INPUT ----------------------------------------------------------------" << std::endl;
         ROS_INFO("Linear velocity: %.2f [m/s]", (float) simulator_u[VEL_LIN]);
         ROS_INFO("Angular velocity: %.2f [deg/s]", (float) simulator_u[VEL_ANG]);
-        std::cout << "POSITION -------------------------------------------------------------" << std::endl;
+        std::cout << "CONFIGURATION --------------------------------------------------------" << std::endl;
         ROS_INFO("x = %.2f [m]", (float) simulator_config[X]);
         ROS_INFO("y = %.2f [m]", (float) simulator_config[Y]);
         ROS_INFO("theta = %.2f [deg]", (float) simulator_config[THETA]);
-        std::cout << "VELOCITY -------------------------------------------------------------" << std::endl;
+        std::cout << "STATE -------------------------------------------------------------" << std::endl;
         ROS_INFO("d_x = %.2f [m/s]", (float) simulator_state[D_X]);
         ROS_INFO("d_y = %.2f [m/s]", (float) simulator_state[D_Y]);
         ROS_INFO("d_theta = %.2f [deg/s]", (float) simulator_state[D_THETA]);
